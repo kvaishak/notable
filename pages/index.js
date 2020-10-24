@@ -5,6 +5,7 @@ import {table, minifyRecord} from './api/utils/Airtable';
 import {NotesContext} from '../context/NotesContext';
 import { useEffect, useContext } from 'react';
 import auth0 from './api/utils/auth0';
+import NoteForm from '../components/NoteForm';
 
 
 export default function Home({initialNotes, user}) {
@@ -23,15 +24,21 @@ useEffect(() =>{
       </Head>
       <Navbar user={user} />
       <main>
-       <h1>Notable</h1>
-       <ul>
-         {notes &&
-         notes.map(note => (
-          <Note key={note.id} note={note} />
-        ))
-         }
-       
-       </ul>
+
+      
+       {user && 
+        <>
+         <h1 className="text-2xl text-center mb-4">My Notes</h1>
+          <NoteForm />
+          <ul>
+            {notes &&
+            notes.map(note => (
+              <Note key={note.id} note={note} />
+            ))}
+        </ul>
+       </>
+       }
+  
       </main>
        
     </div>
