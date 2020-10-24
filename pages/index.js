@@ -48,9 +48,15 @@ useEffect(() =>{
  export async function getServerSideProps(context){
 
   const session = await auth0.getSession(context.req);
-
+ let notes = []
   try{
-    const notes = await table.select({}).firstPage();
+    
+    if(session?.user){
+      notes = await table.select({
+        filterByFormula: `userid = '${session.user.sub}'`
+      }).firstPage();
+    }
+    
 
     return {
       props: {
