@@ -4,9 +4,10 @@ import Note from '../components/Note';
 import {table, minifyRecord} from './api/utils/Airtable';
 import {NotesContext} from '../context/NotesContext';
 import { useEffect, useContext } from 'react';
+import auth0 from './api/utils/auth0';
 
 
-export default function Home({initialNotes}) {
+export default function Home({initialNotes, user}) {
 
 const {notes, setNotes} = useContext(NotesContext);
 
@@ -20,7 +21,7 @@ useEffect(() =>{
         <title>Notable</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
+      <Navbar user={user} />
       <main>
        <h1>Notable</h1>
        <ul>
@@ -38,12 +39,16 @@ useEffect(() =>{
 }
 
  export async function getServerSideProps(context){
+
+  const session = await auth0.getSession(context.req);
+
   try{
     const notes = await table.select({}).firstPage();
 
     return {
       props: {
-        initialNotes: minifyRecord(notes)
+        initialNotes: minifyRecord(notes),
+        user: session?.user || null,
       }
     };
   }catch(err){
