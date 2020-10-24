@@ -1,7 +1,8 @@
 import {table, minifyRecord} from './utils/Airtable';
 import auth0 from './utils/auth0';
+import OwnsRecord from "./middleware/OwnRecord";
 
-export default auth0.requireAuthentication(async(req, res) => {
+export default OwnsRecord(async(req, res) => {
 
     const {user} = await auth0.getSession();
 

@@ -27,7 +27,7 @@ useEffect(() =>{
 
       
        {user && 
-        <>
+        (<>
          <h1 className="text-2xl text-center mb-4">My Notes</h1>
           <NoteForm />
           <ul>
@@ -37,7 +37,10 @@ useEffect(() =>{
             ))}
         </ul>
        </>
-       }
+        )}
+      
+
+       {!user && <p>Please Login to add your Notes</p>}
   
       </main>
        
@@ -50,7 +53,7 @@ useEffect(() =>{
   const session = await auth0.getSession(context.req);
  let notes = []
   try{
-    
+
     if(session?.user){
       notes = await table.select({
         filterByFormula: `userid = '${session.user.sub}'`
