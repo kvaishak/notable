@@ -22,5 +22,5 @@ export default auth0.requireAuthentication(async(req, res) => {
         res.statusCode = 500;
         res.json({msg: 'Something went wrong'});
     }
-})
+});
   

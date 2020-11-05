@@ -2,6 +2,7 @@ import  auth0 from "../utils/auth0";
 import {table} from "../utils/Airtable";
 
 const ownsRecord = (handler) => auth0.requireAuthentication(async (req, res) => {
+    console.log("I am in owns record");
     const {user} = await auth0.getSession(req);
     const {id} = req.body;
 
